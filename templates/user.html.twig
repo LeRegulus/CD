@@ -30,31 +30,58 @@
 
             <!-- Template Main CSS File -->
             <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+            <link href="{{asset('assets/css/style1.css')}}" rel="stylesheet">
+
+        {% endblock %}
+
+        {% block javascripts %}
+            {#{{ encore_entry_script_tags('app') }}#}
+
+            <script>
+                /* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
+                function openNav() {
+                document.getElementById("mySidenav").style.width = "200px";
+                document.getElementById("main").style.marginLeft = "200px";
+                document.body.style.backgroundColor = "#fff";
+                }
+
+                /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+                function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+                document.getElementById("main").style.marginLeft = "0";
+                document.body.style.backgroundColor = "white";
+                }
+            </script>
+            {#{{ encore_entry_script_tags('app') }}#}
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/popper.min.js"></script>
+            <script src="/js/bootstrap.min.js"></script>
 
         {% endblock %}
 
         
     </head>
-    <body>
+    <body id="main">
 
          <!-- ======= Header ======= -->
         <header id="header" class="fixed-top ">
             <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="{{path('app_home')}}">NiouDem</a></h1>
+            <h1 class="logo"></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
             <nav id="navbar" class="navbar">
+                <h1 class="navbar-brand"><h1><a href="{{path('app_profil')}}">NiouDem</a></h1></h1>
                 <ul>
-                    <li><a class="nav-link scrollto" href="{{path('app_home')}}">Accueil</a></li>
+                    <li><a class="nav-link scrollto" href="{{path('app_profil')}}">Accueil</a></li>
                     <li><a class="nav-link scrollto" href="#">Trajets</a></li>
                     <li><a class="nav-link scrollto" href="#">Services</a></li>
                     <li><a class="nav-link scrollto" href="#">Contact</a></li>
                 </ul>
                 {% if app.user %}
                 <ul>
-                    <li><a class="nav-link scrollto" href="#">Menu</a></li>
                     <li><a class="nav-link scrollto" href="{{path('app_logout')}}">{{app.user.name}} Se Deconnecter</a></li>
+                    <li><a class="nav-link scrollto" onclick="openNav()">Menu&#9776;</a></li>
                 </ul>
                 {% else %}
                 <ul>
@@ -88,12 +115,21 @@
 
         </section><!-- End Hero -->
         
-        <main id="main">
-        {% block body %}
-        
+        <main class="container w-100 mt-2">
+            <div id="mySidenav" class="sidenav bg-dark">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a class="nav-link" href="#">Gerer mes Annonces</a>
+                <a href="#">Modifier mon Profil</a>
+                <a href="#">Se Deconnecter</a>
+            </div>
+            
+            <div>
+            {% block body %}
+            
 
-        
-        {% endblock %}
+            
+            {% endblock %}
+            </div>
         </main><!-- End #main -->
 
         <!-- ======= Footer ======= -->
@@ -118,13 +154,13 @@
                 <div class="row">
 
                 <div class="col-lg-3 col-md-6 footer-contact">
-                    <h3>NiouDem</h3>
+                    <h3>Arsha</h3>
                     <p>
-                    Cite Gabon, Rue RO 86 <br>
-                    Rufisque, Dakar<br>
-                    Sénégal <br><br>
-                    <strong>Phone:</strong> +221 78 130 18 56<br>
-                    <strong>Email:</strong> contact@nioudem.com<br>
+                    A108 Adam Street <br>
+                    New York, NY 535022<br>
+                    United States <br><br>
+                    <strong>Phone:</strong> +1 5589 55488 55<br>
+                    <strong>Email:</strong> info@example.com<br>
                     </p>
                 </div>
 
@@ -183,9 +219,8 @@
         <div id="preloader"></div>
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-
+        {% block javascript %}
+        
             <!-- Vendor JS Files -->
             <script src="{{asset('assets/vendor/aos/aos.js')}}"></script>
             <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>

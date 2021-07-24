@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Trajet;
+use App\Form\TrajetType;
 use App\Form\EditprofilType;
+use App\Repository\TrajetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,9 +15,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ProfilController extends AbstractController
 {
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, TrajetRepository $repo)
     {
         $this->em = $em;
+        $this->repo = $repo;
     }
 
     #[Route('/profil', name: 'app_profil')]
@@ -65,5 +69,54 @@ class ProfilController extends AbstractController
             }
         }
         return $this->render('profil/edit_password.html.twig');
+    }
+
+    #[Route('/trajet/new', name: 'profil_trajet_new', methods: ['GET', 'POST'])]
+    public function new(Request $request): Response
+    {
+        $trajet = new Trajet();
+        $form = $this->createForm(TrajetType::class, $trajet);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($trajet);
+            $this->em->flush();
+
+            return $this->redirectToRoute('trajet_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('trajet/new.html.twig', [
+            'trajet' => $trajet,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/trajet/{id}', name: 'profil_trajet_delete', methods: ['POST'])]
+    public function delete(Request $request, Trajet $trajet): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$trajet->getId(), $request->request->get('_token'))) {
+            $this->em->remove($trajet);
+            $this->em->flush();
+        }
+
+        return $this->redirectToRoute('trajet_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/trajet/{id}/edit', name: 'profil_trajet_edit', methods: ['GET', 'POST'])]
+    public function trajetEdit(Request $request, Trajet $trajet): Response
+    {
+        $form = $this->createForm(TrajetType::class, $trajet);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->flush();
+
+            return $this->redirectToRoute('trajet_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('trajet/edit.html.twig', [
+            'trajet' => $trajet,
+            'form' => $form,
+        ]);
     }
 }

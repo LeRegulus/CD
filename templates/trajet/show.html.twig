@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trajet {{trajet.origine}} - {{trajet.destination}} {% endblock %}
+
+{% block body %}
+
+    <div class="container m-auto bg-light" style="width:80%">
+    <div class="row mt-5  d.flex jusrify-content-between">
+        <div class="col-md-8">
+            <div class="container m-1 shadow-sm p-1 mb-1 rounded bg-white">
+                <table class="table table-hover">
+                    <tr class="table-default">
+                        <td><H1>{{trajet.origine}} vers {{trajet.destination}} </H1></td>
+                    </tr>
+                </table>
+                <h3>Details du trajet:</h3>
+                <table class="table table-hover">
+                    <tr class="table-default">
+                        <td><i class="fal fa-map-marker-alt">Origine:</i></td>
+                        <td>{{trajet.origine}}</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td><i class="fal fa-map-marker-alt">Destination:</i></td>
+                        <td>{{trajet.destination}}</td>
+                    </tr>
+                    <tr class="table-deafult">
+                        <td><i class="fal fa-map-marker-alt">Lieu de Depart:</i></td>
+                        <td>{{trajet.lieuDepart}}</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td><i class="far fa-calendar">Date:</i></td>
+                        <td>{{trajet.date|format_datetime('short', 'none', locale='en')}}</td>
+                    </tr>
+                    <tr class="table-default">
+                        <td><i class="far fa-clock">Heure:</i></td>
+                        <td>{{trajet.date|format_datetime('none', 'short', locale='en')}}</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td>Places disponibles:</td>
+                        <td>{{trajet.places}}</td>
+                    </tr>
+                    <tr class="table-default">
+                        <td><i class="fal fa-money-bill-alt">Prix(par places):</i></td>
+                        <td>{{trajet.prix}} Fcfa</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            {% set user = trajet.user %}
+            <div class="container m-1 shadow-sm p-1 mb-1 rounded bg-white">
+            <table class="table table-hover">
+                    <tr class="table-default">
+                        <td><H1>Conducteur: </H1></td>
+                    </tr>
+                </table>
+                <div class="row d-flex flex-column m-3">
+                    <img style="width:150px; height:150px;" class="img-thumbnail rounded-circle" src="/uploads/profilPhotos/{{ user.profilPhoto }}" alt="">
+                    <H5>{{user.name}} {{user.lastName}}</H5>
+                    <h5>{{user.email}} </h5>
+                    <h5>{{user.tel}} </h5>
+                    {% if app.user %}
+                    <a href="#" class="btn btn-primary">Reserver une place</a>
+                    {% else %}
+                    <a href="#" class="btn btn-primary">Connectez vous</a>
+                    <p>Pour pouvoir reserver une place</p>
+                    {% endif %}
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <figure>
+				<iframe class="card-img-top" width="600px" height="400px" frameborder="0" style="border:0"
+								src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDEYgkXlCHCkWLYHyMQGjGSL6lhXBWMFfA&origin={{ trajet.origine }}&destination={{trajet.destination}}" allowfullscreen></iframe>
+			</figure>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4"></div>
+
+    </div>
+    
+    </div>
+    {% if app.user %}
+        <a class="btn btn-primary" href="{{ path('profil_trajet_edit', {'id': trajet.id}) }}">edit</a>
+
+    {{ include('trajet/_delete_form.html.twig') }}
+    {% endif %}
+
+    <a href="{{ path('trajet_index') }}">back to list</a>
+
+    
+{% endblock %}

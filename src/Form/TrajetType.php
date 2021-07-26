@@ -18,7 +18,6 @@ class TrajetType extends AbstractType
             ->add('places')
             ->add('lieuDepart')
             ->add('prix')
-            ->add('user')
         ;
     }
 

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'user.html.twig' %}
 
 {% block title %}Trajet {{trajet.origine}} - {{trajet.destination}} {% endblock %}
 
@@ -17,31 +17,31 @@
                 <table class="table table-hover">
                     <tr class="table-default">
                         <td><i class="fal fa-map-marker-alt">Origine:</i></td>
-                        <td>{{trajet.origine}}</td>
+                        <td><strong>{{trajet.origine}}</strong></td>
                     </tr>
                     <tr class="table-primary">
                         <td><i class="fal fa-map-marker-alt">Destination:</i></td>
-                        <td>{{trajet.destination}}</td>
+                        <td><strong>{{trajet.destination}}</strong></td>
                     </tr>
                     <tr class="table-deafult">
                         <td><i class="fal fa-map-marker-alt">Lieu de Depart:</i></td>
-                        <td>{{trajet.lieuDepart}}</td>
+                        <td> <strong>{{trajet.lieuDepart}}</strong> </td>
                     </tr>
                     <tr class="table-primary">
                         <td><i class="far fa-calendar">Date:</i></td>
-                        <td>{{trajet.date|format_datetime('short', 'none', locale='en')}}</td>
+                        <td><strong>{{trajet.date|format_datetime('short', 'none', locale='en')}}</strong></td>
                     </tr>
                     <tr class="table-default">
                         <td><i class="far fa-clock">Heure:</i></td>
-                        <td>{{trajet.date|format_datetime('none', 'short', locale='en')}}</td>
+                        <td><strong>{{trajet.date|format_datetime('none', 'short', locale='en')}}</strong></td>
                     </tr>
                     <tr class="table-primary">
                         <td>Places disponibles:</td>
-                        <td>{{trajet.places}}</td>
+                        <td><strong>{{trajet.places}}</strong></td>
                     </tr>
                     <tr class="table-default">
                         <td><i class="fal fa-money-bill-alt">Prix(par places):</i></td>
-                        <td>{{trajet.prix}} Fcfa</td>
+                        <td><strong>{{trajet.prix}} Fcfa</strong></td>
                     </tr>
                 </table>
             </div>
@@ -60,9 +60,9 @@
                     <h5>{{user.email}} </h5>
                     <h5>{{user.tel}} </h5>
                     {% if app.user %}
-                    <a href="#" class="btn btn-primary">Reserver une place</a>
+                    <a href="{{path('profil_trajet_reserver', {'id': trajet.id})}}" class="btn btn-primary">Reserver une place</a>
                     {% else %}
-                    <a href="#" class="btn btn-primary">Connectez vous</a>
+                    <a href="{{path('app_login')}}" class="btn btn-primary">Connectez vous</a>
                     <p>Pour pouvoir reserver une place</p>
                     {% endif %}
 
@@ -78,10 +78,38 @@
 								src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDEYgkXlCHCkWLYHyMQGjGSL6lhXBWMFfA&origin={{ trajet.origine }}&destination={{trajet.destination}}" allowfullscreen></iframe>
 			</figure>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            {% for message in app.flashes('success') %}
+                <div class='alert alert-success'>{{message}}</div>
+            {% endfor %}
+            <h3>Commentez l'annonce</h3>
+            {{form_start(commentform)}}
+                {{form_row(commentform.Author, {attr: {class: 'form-control'} })}}
+                {{form_row(commentform.mail, {attr: {class: 'form-control'} })}}
+                {{form_row(commentform.content, {attr: {class: 'form-control'} })}}
+                <button type="submit" class="btn btn-primary">Commenter</button>
+            {{form_end(commentform)}}
+        </div>
     </div>
     <div class="row">
-        <div class="col-md-8"></div>
+        <div class="col-md-8">
+            {% if trajet.comments.count() > 0 %}
+            <div class="container">
+                <div class="faq-list">
+                    <ul>
+                    {% for comment in trajet.comments %}
+                        <li data-aos="fade-up" data-aos-delay="100">
+                        <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-1"><i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                         {{comment.Author}} <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
+                            <p>{{comment.content}}</p>
+                        </div><p>{{comment.createdAt|ago(locale='fr')}}</p>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
         <div class="col-md-4"></div>
     </div>
     <div class="row">
@@ -91,13 +119,13 @@
     </div>
     
     </div>
-    {% if app.user %}
+    {% if app.user == trajet.user %}
         <a class="btn btn-primary" href="{{ path('profil_trajet_edit', {'id': trajet.id}) }}">edit</a>
 
     {{ include('trajet/_delete_form.html.twig') }}
     {% endif %}
 
-    <a href="{{ path('trajet_index') }}">back to list</a>
+    <a href="{{ path('trajet_index') }}" class="btn btn-primary">Retour</a>
 
     
 {% endblock %}

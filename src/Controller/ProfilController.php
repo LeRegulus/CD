@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Reservation;
 use App\Entity\Trajet;
 use App\Form\TrajetType;
 use App\Form\EditprofilType;
 use App\Repository\TrajetRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,7 +73,7 @@ class ProfilController extends AbstractController
         return $this->render('profil/edit_password.html.twig');
     }
 
-    #[Route('/trajet/new', name: 'profil_trajet_new', methods: ['GET', 'POST'])]
+    #[Route('/profil/trajet/new', name: 'profil_trajet_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $trajet = new Trajet();
@@ -79,6 +81,7 @@ class ProfilController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $trajet->setUser($this->getUser());
             $this->em->persist($trajet);
             $this->em->flush();
 
@@ -91,7 +94,7 @@ class ProfilController extends AbstractController
         ]);
     }
 
-    #[Route('/trajet/{id}', name: 'profil_trajet_delete', methods: ['POST'])]
+    #[Route('/profil/trajet/{id}', name: 'profil_trajet_delete', methods: ['POST'])]
     public function delete(Request $request, Trajet $trajet): Response
     {
         if ($this->isCsrfTokenValid('delete'.$trajet->getId(), $request->request->get('_token'))) {
@@ -102,7 +105,7 @@ class ProfilController extends AbstractController
         return $this->redirectToRoute('trajet_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/trajet/{id}/edit', name: 'profil_trajet_edit', methods: ['GET', 'POST'])]
+    #[Route('/profil/trajet/{id}/edit', name: 'profil_trajet_edit', methods: ['GET', 'POST'])]
     public function trajetEdit(Request $request, Trajet $trajet): Response
     {
         $form = $this->createForm(TrajetType::class, $trajet);
@@ -118,5 +121,21 @@ class ProfilController extends AbstractController
             'trajet' => $trajet,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/profil/trajet/{id}/reserve', name: 'profil_trajet_reserver')]
+    public function reserve(Trajet $trajet){
+        $reservation = new Reservation();
+        if($trajet->getPlaces() > 0){
+            $reservation->setTrajet($trajet);
+            $reservation->setUser($this->getUser());
+            $reservation->setCreatedAt(new DateTime('now'));
+            $this->em->persist($reservation);
+            $place = ($trajet->getPlaces() - 1);
+            $trajet->setPlaces($place);
+            $this->em->persist($trajet);
+            return $this->redirectToRoute('trajet_show', array('id'=> $trajet->getId()));
+        }
+
     }
 }

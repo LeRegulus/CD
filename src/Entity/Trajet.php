@@ -4,11 +4,14 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TrajetRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrajetRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Trajet
 {
@@ -70,6 +73,22 @@ class Trajet
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trajet", cascade={"persist", "remove"})
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="trajet")
+     */
+    private $reservations;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -156,6 +175,66 @@ class Trajet
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setTrajet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTrajet() === $this) {
+                $comment->setTrajet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->setTrajet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getTrajet() === $this) {
+                $reservation->setTrajet(null);
+            }
+        }
 
         return $this;
     }

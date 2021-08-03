@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    {# {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <h1>Register</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }} #}
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{{asset('assets/css/style2.css')}}" rel="stylesheet">
+
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Inscription</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-12 col-lg-10">
+					<div class="wrap d-md-flex">
+						<div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last bg-info" style="background-color: #37517e; color:white;">
+							<div class="text w-100">
+								<h2>Binevenu sur la page d'Inscription</h2>
+								<p>Vous avez un compte?</p>
+								<a href="{{path('app_login')}}" class="btn btn-white btn-outline-white">Connectez vous Ici</a>
+							</div>
+						</div>
+						<div class="login-wrap p-4 p-lg-5">
+							<div class="d-flex">
+								<div class="w-100">
+									<h3 class="mb-4">Inscrivez vous Ici</h3>
+								</div>
+							</div>
+							<div class="signin-form">
+                                {{ form_start(registrationForm) }}
+								<div class="form-group mb-3">
+                                    {{ form_row(registrationForm.email, {attr: {class: 'form-control'}}) }}  
+									{# <label class="label" for="name">Email</label>
+									<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocusd>
+								 #}
+                                </div>
+								<div class="form-group mb-3">
+                                    {{ form_row(registrationForm.plainPassword, {attr: {class: 'form-control'}, label: 'Mot de Passe'}) }}
+									{# <label class="label" for="password">Mot de passe</label>
+									<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required></div>
+								<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"> #}
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ form_row(registrationForm.agreeTerms, {
+                                        label: 'Acceptez les conditions'
+                                    })  }}
+									{# <button type="submit" class="form-control btn btn-primary submit px-3">Connexion</button> #}
+								</div>
+								<div class="form-group">
+                                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+									{# <button type="submit" class="form-control btn btn-primary submit px-3">Connexion</button> #}
+								</div>
+                                {{ form_end(registrationForm) }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

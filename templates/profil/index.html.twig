@@ -1,0 +1,115 @@
+{% extends 'user.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block styleheets %}
+    <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% set user = app.user %}
+    {% for message in app.flashes('success') %}
+        <div class='alert alert-success'>{{message}}</div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class='alert alert-danger'>{{message}}</div>
+    {% endfor %}
+<div class="container">
+    <div class="main-body">
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="/uploads/profilPhotos/{{ user.profilPhoto }}" alt="Admin" class="rounded-circle" width="200" height="250">
+                    <div class="mt-3">
+                      <h4>{{user.name}} {{user.lastName}}</h4>
+                      <p class="text-secondary mb-1">{{user.email}}</p>
+                      <p class="text-muted font-size-sm">{{user.address}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Nom complet</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.name}} {{user.lastName}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.email}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Téléphone</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.tel}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Adresse</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.address}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Date de Naissance</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.birthday|date("m/d/Y")}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Sexe</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.sexe}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Bio</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.description}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <a class="btn btn-info " href="{{path('app_profil_edit')}}">Modifier le profil</a>
+                      <a class="btn btn-info " href=" {{path('app_profil_password_edit')}} ">Modifier mot de passe</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

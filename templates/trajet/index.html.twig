@@ -1,0 +1,49 @@
+{% extends 'user.html.twig' %}
+
+{% block title %}Les Trajets{% endblock %}
+
+{% block body %}
+
+<h1 class="my-5">Toutes les trajets...</h1>
+{% for message in app.flashes('success') %}
+    <div class='alert alert-success'>{{message}}</div>
+{% endfor %}
+
+
+<div class="row">
+    {% for trajet in trajets %}
+    <div class="col-md-3 d-flex  align-items-stretch">
+        <div class="card shadow-lg text-center mb-5 bg-body rounded" id="card">
+            <div class="card-header">
+                <strong> <i class="fas fa-map-marker-alt">{{ trajet.origine }}</i> - <i class="fas fa-map-marker-alt">{{ trajet.destination }}</i> </strong>
+            </div> 
+            <figure>
+				<iframe class="card-img-top" width="240" height="100" frameborder="0" style="border:0"
+								src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDEYgkXlCHCkWLYHyMQGjGSL6lhXBWMFfA&origin={{ trajet.origine }}&destination={{trajet.destination}}" allowfullscreen></iframe>
+				</figure>
+            <div class="card-body">
+                <small style="font-size: 1rem; color:black;"><i class="far fa-calendar">{{trajet.date|date("m/d/Y")}}</i></small> <br>
+                <small style="font-size: 1rem; color:black;"><i class="far fa-clock">{{trajet.date|format_datetime('none', 'short', locale='en') }}</i></small> <br>
+                <small style="font-size: 1rem; color:black;" class="card-title"> {{ trajet.places }} Places disponibles</small><br>
+                <small style="font-size: 1rem; color:black;" class="card-title"> <strong>PRIX: {{ trajet.prix }} Fcfa</strong></small>
+
+                <a class=" card-botom btn btn-primary" href="{{path('trajet_show', {'id': trajet.id})}}"id="details" style="display:none;"> Details </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<a href="{{ path('profil_trajet_new') }}" class="btn btn-primary">Proposer un trajet</a>
+<script>
+        let dev = document.querySelectorAll('#card');
+        for (let div of dev){
+            let detail = div.querySelector('#details');
+            div.addEventListener('mouseover', function () {
+                detail.style.display = "block";
+            });
+            div.addEventListener('mouseleave', function () {
+                detail.style.display = "none";
+            });
+        }
+    </script>
+{% endblock %}

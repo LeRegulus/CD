@@ -44,7 +44,8 @@ class EditprofilType extends AbstractType
         ])
         ->add('profilPhoto', FileType::class, [
             'label' => 'Uploadez un photo',
-            'required' => false
+            'required' => false,
+            'data_class' => null
         ])
         ;
     }

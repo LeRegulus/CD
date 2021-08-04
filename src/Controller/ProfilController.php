@@ -49,7 +49,7 @@ class ProfilController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
             $this->addFlash('message', 'Profil mis à jour');
-            $this->redirectToRoute('app_profil'); 
+            return $this->redirectToRoute('app_profil'); 
         }
         return $this->render('profil/edit.html.twig', [
             'form' => $form->createView(),

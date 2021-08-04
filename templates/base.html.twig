@@ -19,6 +19,7 @@
             <!-- Google Fonts -->
             <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
             <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
             <!-- Vendor CSS Files -->
             <link href="{{asset('assets/vendor/aos/aos.css')}}" rel="stylesheet">
             <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -27,20 +28,55 @@
             <link href="{{asset('assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
             <link href="{{asset('assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
             <link href="{{asset('assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+            <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
             <!-- Template Main CSS File -->
             <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+            <link href="{{asset('assets/css/style1.css')}}" rel="stylesheet">
 
+        {% endblock %}
+        {% block javascript %}
+            <script>
+                function openRightMenu() {
+                    document.getElementById("main").style.marginRight = "10%";
+                    document.getElementById("rightMenu").style.marginTop = "71px";
+                    document.getElementById("rightMenu").style.width = "10%";
+                    document.getElementById("rightMenu").style.display = "block";
+                    document.getElementById("openNav").style.display = 'none';
+                    document.body.style.backgroundColor = "#fff";
+                }
+
+                function closeRightMenu() {
+                    document.getElementById("main").style.marginRight = "0%";
+                    document.getElementById("rightMenu").style.display = "none";
+                    document.getElementById("openNav").style.display = "inline-block";
+                    document.body.style.backgroundColor = "#fff";
+                }
+            </script>
+            {#{{ encore_entry_script_tags('app') }}#}
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/popper.min.js"></script>
+            <script src="/js/bootstrap.min.js"></script>
         {% endblock %}
 
         
     </head>
     <body>
 
+        {% if app.user %}
+            <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="rightMenu">
+                <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+                <a href="{{path('app_profil')}}" class="w3-bar-item w3-button"><i class="fas fa-user-circle">Profil</i></a>
+                <a href="#" class="w3-bar-item w3-button"><i class="far fa-car-bus">Mes Trajets</i></a>
+                <a href="#" class="w3-bar-item w3-button"><i class="far fa-sticky-note">Reservations</i></a>
+                <a href="#" class="w3-bar-item w3-button"><i class="fas fa-sign-out-alt">Logout</i></a>
+            </div>
+        {% endif %}
+
          <!-- ======= Header ======= -->
         <header id="header" class="fixed-top ">
             <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="{{path('app_home')}}">NiouDem</a></h1>
+            <h1 class="logo me-auto"><a href="{{path('app_home')}}">NiouDem</a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -53,8 +89,8 @@
                 </ul>
                 {% if app.user %}
                 <ul>
-                    <li><a class="nav-link scrollto" href="#">Menu</a></li>
                     <li><a class="nav-link scrollto" href="{{path('app_logout')}}">{{app.user.name}} Se Deconnecter</a></li>
+                    <li><a class="nav-link scrollto" id="openNav" onclick="openRightMenu()">&#9776;Menu</a></li>
                 </ul>
                 {% else %}
                 <ul>
@@ -68,6 +104,9 @@
             </div>
         </header><!-- End Header -->
 
+        
+        
+        <main id="main">
         <!-- ======= Hero Section ======= -->
         <section id="hero" class="d-flex align-items-center">
 
@@ -84,8 +123,6 @@
             </div>
 
         </section><!-- End Hero -->
-        
-        <main id="main">
         {% block body %}
         
 
@@ -95,20 +132,6 @@
 
         <!-- ======= Footer ======= -->
         <footer id="footer">
-
-            <div class="footer-newsletter">
-            <div class="container">
-                <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <h4>Join Our Newsletter</h4>
-                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-                    <form action="" method="post">
-                    <input type="email" name="email"><input type="submit" value="Subscribe">
-                    </form>
-                </div>
-                </div>
-            </div>
-            </div>
 
             <div class="footer-top">
             <div class="container">

@@ -37,7 +37,6 @@ class Trajet
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank
-     * @Assert\DateTime
      * @var string A "Y-m-d H:i:s" formatted value
      */
     private $date;
@@ -59,7 +58,7 @@ class Trajet
     private $lieuDepart;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="float")
      * @Assert\NotBlank
      * @Assert\Type(
      *     type="float",
@@ -155,12 +154,12 @@ class Trajet
         return $this;
     }
 
-    public function getPrix(): ?string
+    public function getPrix(): float
     {
         return $this->prix;
     }
 
-    public function setPrix(string $prix): self
+    public function setPrix(float $prix): self
     {
         $this->prix = $prix;
 

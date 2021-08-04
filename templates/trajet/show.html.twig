@@ -1,19 +1,26 @@
-{% extends 'user.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Trajet {{trajet.origine}} - {{trajet.destination}} {% endblock %}
 
 {% block body %}
 
-    <div class="container m-auto bg-light" style="width:80%">
-    <div class="row mt-5  d.flex jusrify-content-between">
-        <div class="col-md-8">
-            <div class="container m-1 shadow-sm p-1 mb-1 rounded bg-white">
-                <table class="table table-hover">
-                    <tr class="table-default">
-                        <td><H1>{{trajet.origine}} vers {{trajet.destination}} </H1></td>
-                    </tr>
-                </table>
-                <h3>Details du trajet:</h3>
+    <!-- ======= Skills Section ======= -->
+    <section id="skills" class="skills">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="col-lg-6 d-flex align-items-center" data-aos="fade-right" data-aos-delay="100">
+			<iframe  width="600px" height="400px" frameborder="0" style="border:0"
+								src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDEYgkXlCHCkWLYHyMQGjGSL6lhXBWMFfA&origin={{ trajet.origine }}&destination={{trajet.destination}}" allowfullscreen></iframe>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left" data-aos-delay="100">
+            <h3>{{trajet.origine}} vers {{trajet.destination}}</h3>
+            <p class="fst-italic">
+            </p>
+
+            <div class="skills-content">
+
+              <h3>Details du trajet:</h3>
                 <table class="table table-hover">
                     <tr class="table-default">
                         <td><i class="fal fa-map-marker-alt">Origine:</i></td>
@@ -44,88 +51,105 @@
                         <td><strong>{{trajet.prix}} Fcfa</strong></td>
                     </tr>
                 </table>
-            </div>
-        </div>
-        <div class="col-md-4">
-            {% set user = trajet.user %}
-            <div class="container m-1 shadow-sm p-1 mb-1 rounded bg-white">
-            <table class="table table-hover">
-                    <tr class="table-default">
-                        <td><H1>Conducteur: </H1></td>
-                    </tr>
-                </table>
-                <div class="row d-flex flex-column m-3">
-                    <img style="width:150px; height:150px;" class="img-thumbnail rounded-circle" src="/uploads/profilPhotos/{{ user.profilPhoto }}" alt="">
-                    <H5>{{user.name}} {{user.lastName}}</H5>
-                    <h5>{{user.email}} </h5>
-                    <h5>{{user.tel}} </h5>
-                    {% if app.user %}
-                    <a href="{{path('profil_trajet_reserver', {'id': trajet.id})}}" class="btn btn-primary">Reserver une place</a>
-                    {% else %}
-                    <a href="{{path('app_login')}}" class="btn btn-primary">Connectez vous</a>
-                    <p>Pour pouvoir reserver une place</p>
-                    {% endif %}
 
-                    
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Skills Section -->
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <div class="row">
+                {% set user = trajet.user %}
+                <div class="col-lg-6">
+                        <div class="section-title">
+                            <h2>Conducteur</h2>
+                        </div>
+                        <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="pic"><img src="/uploads/profilPhotos/{{ user.profilPhoto }}" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>{{user.name}} {{user.lastName}}</h4>
+                            <span>{{user.email}} </span>
+                            <p>{{user.tel}}</p>
+                            <div class="social">
+                            <a href=""><i class="ri-twitter-fill"></i></a>
+                            <a href=""><i class="ri-facebook-fill"></i></a>
+                            <a href=""><i class="ri-instagram-fill"></i></a>
+                            <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                            </div>
+                            {% if app.user %}
+                                {% if app.user == user %}
+
+                                {% else %}
+                                    <a href="{{path('profil_trajet_reserver', {'id': trajet.id})}}" class="btn btn-primary">Reserver une place</a>    
+                                {% endif %}
+                            {% else %}
+                                <a href="{{path('app_login')}}" class="btn btn-primary">Connectez vous</a>
+                                <p>Pour pouvoir reserver une place</p>
+                            {% endif %}
+                        </div>
+                        </div>
+                </div>
+
+                <div class="col-lg-6">
+                    {% for message in app.flashes('success') %}
+                        <div class='alert alert-success'>{{message}}</div>
+                    {% endfor %}
+                    <div class="section-title">
+                    <h2>Commentez</h2>
+                    </div>
+                    {{form_start(commentform)}}
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                        {{form_row(commentform.Author, {attr: {class: 'form-control'} })}}
+                        </div>
+                        <div class="form-group col-md-6">
+                        {{form_row(commentform.mail, {attr: {class: 'form-control'} })}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{form_row(commentform.content, {attr: {class: 'form-control'} })}}
+                    </div>
+                        <button type="submit" class="btn btn-primary">Commenter</button>
+                    {{form_end(commentform)}}
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <figure>
-				<iframe class="card-img-top" width="600px" height="400px" frameborder="0" style="border:0"
-								src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDEYgkXlCHCkWLYHyMQGjGSL6lhXBWMFfA&origin={{ trajet.origine }}&destination={{trajet.destination}}" allowfullscreen></iframe>
-			</figure>
-        </div>
-        <div class="col-md-4">
-            {% for message in app.flashes('success') %}
-                <div class='alert alert-success'>{{message}}</div>
-            {% endfor %}
-            <h3>Commentez l'annonce</h3>
-            {{form_start(commentform)}}
-                {{form_row(commentform.Author, {attr: {class: 'form-control'} })}}
-                {{form_row(commentform.mail, {attr: {class: 'form-control'} })}}
-                {{form_row(commentform.content, {attr: {class: 'form-control'} })}}
-                <button type="submit" class="btn btn-primary">Commenter</button>
-            {{form_end(commentform)}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
             {% if trajet.comments.count() > 0 %}
-            <div class="container">
-                <div class="faq-list">
-                    <ul>
+            <div class="section-title">
+                <h2>Commentaires</h2>
+            </div>
+
+            <div class="faq-list">
+                <ul>
                     {% for comment in trajet.comments %}
-                        <li data-aos="fade-up" data-aos-delay="100">
-                        <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-1"><i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                         {{comment.Author}} <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
-                            <p>{{comment.content}}</p>
-                        </div><p>{{comment.createdAt|ago(locale='fr')}}</p>
-                        </li>
+                    <li data-aos="fade-up" data-aos-delay="100">
+                    <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-1">{{comment.Author}} : <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                    <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
+                        <p>"{{comment.content}}"</p>
+                        <p>{{comment.createdAt|ago(locale='fr')}}</p>
+                    </div>
+                    </li>
                     {% endfor %}
-                    </ul>
-                </div>
+                </ul>
             </div>
             {% endif %}
+            <br>
+            {% if app.user == trajet.user %}
+                <a class="btn btn-primary" href="{{ path('profil_trajet_edit', {'id': trajet.id}) }}">edit</a>
+
+            {{ include('trajet/_delete_form.html.twig') }}
+            {% endif %}
+
+            <a href="{{ path('trajet_index') }}" class="btn btn-primary">Retour</a>
         </div>
-        <div class="col-md-4"></div>
-    </div>
-    <div class="row">
-        <div class="col-md-8"></div>
-        <div class="col-md-4"></div>
+    </section><!-- End Team Section -->
 
-    </div>
     
-    </div>
-    {% if app.user == trajet.user %}
-        <a class="btn btn-primary" href="{{ path('profil_trajet_edit', {'id': trajet.id}) }}">edit</a>
-
-    {{ include('trajet/_delete_form.html.twig') }}
-    {% endif %}
-
-    <a href="{{ path('trajet_index') }}" class="btn btn-primary">Retour</a>
 
     
 {% endblock %}

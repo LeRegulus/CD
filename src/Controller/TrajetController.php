@@ -33,7 +33,6 @@ class TrajetController extends AbstractController
     }
 
     
-
     #[Route('/{id}', name: 'trajet_show')]
     public function show(Trajet $trajet, Request $requst): Response
     {

@@ -1,48 +1,59 @@
-{% extends 'user.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Les Trajets{% endblock %}
 
 {% block body %}
 
-<h1 class="my-5">Toutes les trajets...</h1>
-{% for message in app.flashes('success') %}
-    <div class='alert alert-success'>{{message}}</div>
-{% endfor %}
-
-
-<div class="row">
-    {% for trajet in trajets %}
-    <div class="col-md-3 d-flex  align-items-stretch">
-        <div class="card shadow-lg text-center mb-5 bg-body rounded" id="card">
-            <div class="card-header">
-                <strong> <i class="fas fa-map-marker-alt">{{ trajet.origine }}</i> - <i class="fas fa-map-marker-alt">{{ trajet.destination }}</i> </strong>
-            </div> 
-            <figure>
-				<iframe class="card-img-top" width="240" height="100" frameborder="0" style="border:0"
-								src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDEYgkXlCHCkWLYHyMQGjGSL6lhXBWMFfA&origin={{ trajet.origine }}&destination={{trajet.destination}}" allowfullscreen></iframe>
-				</figure>
-            <div class="card-body">
-                <small style="font-size: 1rem; color:black;"><i class="far fa-calendar">{{trajet.date|date("m/d/Y")}}</i></small> <br>
-                <small style="font-size: 1rem; color:black;"><i class="far fa-clock">{{trajet.date|format_datetime('none', 'short', locale='en') }}</i></small> <br>
-                <small style="font-size: 1rem; color:black;" class="card-title"> {{ trajet.places }} Places disponibles</small><br>
-                <small style="font-size: 1rem; color:black;" class="card-title"> <strong>PRIX: {{ trajet.prix }} Fcfa</strong></small>
-
-                <a class=" card-botom btn btn-primary" href="{{path('trajet_show', {'id': trajet.id})}}"id="details" style="display:none;"> Details </a>
-            </div>
+<section id="services" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+        {% for message in app.flashes('success') %}
+            <div class='alert alert-success'>{{message}}</div>
+        {% endfor %} 
+        <div class="section-title">
+            <h2>Toutes les trajets</h2>
         </div>
+        
+        <div class="row">
+            {% for trajet in trajets %}
+            <div class="col-xl-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100" id="select">
+                <div class="card mb-4" id="card">
+                    {# <img class="card-img-top" src="//placeimg.com/290/180/any" alt="Card image cap"> #}
+                        <iframe class="card-img-top"  frameborder="0" style="border:0"
+                                        src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDEYgkXlCHCkWLYHyMQGjGSL6lhXBWMFfA&origin={{ trajet.origine }}&destination={{trajet.destination}}" allowfullscreen></iframe>
+                    <div class="card-body">
+                    <h5 class="card-title"><strong> <i class="fas fa-map-marker-alt">{{ trajet.origine }}</i> - <i class="fas fa-map-marker-alt">{{ trajet.destination }}</i> </strong></h5>
+                    <p class="card-text"><i class="far fa-calendar"><strong>{{trajet.date|date("m/d/Y")}}</strong></i></p>
+                    <p class="card-text"><i class="far fa-clock"><strong>{{trajet.date|format_datetime('none', 'short', locale='en') }}</strong></i></p>
+                    <p class="card-text"><strong>{{ trajet.places }}</strong> Places disponibles</p>
+                    <p class="card-text">PRIX:<strong> {{ trajet.prix }} Fcfa</strong></p>
+                    <a href="{{path('trajet_show', {'id': trajet.id})}}"id="details" style="display:none;" class="btn btn-outline-dark btn-sm">Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="{{ path('profil_trajet_new') }}" class="btn btn-primary">Proposer un trajet</a>
     </div>
-    {% endfor %}
-</div>
-<a href="{{ path('profil_trajet_new') }}" class="btn btn-primary">Proposer un trajet</a>
+</section>
 <script>
         let dev = document.querySelectorAll('#card');
         for (let div of dev){
             let detail = div.querySelector('#details');
             div.addEventListener('mouseover', function () {
                 detail.style.display = "block";
+                
             });
             div.addEventListener('mouseleave', function () {
                 detail.style.display = "none";
+            });
+        }
+        let one = document.querySelectorAll('#select');
+        for (let two of one){
+            two.addEventListener('mouseover', function(){
+                two.style.transform = "translateY(-10px)";
+            });
+            two.addEventListener('mouseleave', function(){
+                two.style.transform = "translateY(0px)";
             });
         }
     </script>

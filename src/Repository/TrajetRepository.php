@@ -19,6 +19,17 @@ class TrajetRepository extends ServiceEntityRepository
         parent::__construct($registry, Trajet::class);
     }
 
+
+    public function findUserTrajets($value)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.user = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Trajet[] Returns an array of Trajet objects
     //  */

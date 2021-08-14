@@ -3,13 +3,18 @@
 {% block title %}Modifier le profil{% endblock %}
 
 {% block body %}
+
+    <section id="services" class="services section-bg">
+    <div class="container" data-aos="fade-up">
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
 
 
     <div style="width:50%; margin:auto;">
-    <h1>Modification du profil</h1>
+        <div class="section-title">
+            <h2>Modification du Profil</h2>
+        </div>
 
         {{ form_start(form) }}
         <div class="form-group">
@@ -59,5 +64,6 @@
     {{ form_end(form) }}
     </div>
 
-    
+    </div>
+    </section>
 {% endblock %}

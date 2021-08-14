@@ -18,7 +18,7 @@
 
             <!-- Google Fonts -->
             <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-            <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+            <link rel="stylesheet" href="{{asset('assets/css/fa.css')}}"/>
 
             <!-- Vendor CSS Files -->
             <link href="{{asset('assets/vendor/aos/aos.css')}}" rel="stylesheet">
@@ -28,7 +28,7 @@
             <link href="{{asset('assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
             <link href="{{asset('assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
             <link href="{{asset('assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
-            <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+            <link rel="stylesheet" href="{{asset('assets/css/w3.css')}}">
 
             <!-- Template Main CSS File -->
             <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
@@ -67,7 +67,7 @@
             <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="rightMenu">
                 <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
                 <a href="{{path('app_profil')}}" class="w3-bar-item w3-button"><i class="fas fa-user-circle">Profil</i></a>
-                <a href="#" class="w3-bar-item w3-button"><i class="far fa-car-bus">Mes Trajets</i></a>
+                <a href="{{path('profil_admin_index')}}" class="w3-bar-item w3-button"><i class="far fa-car-bus">Mes Trajets</i></a>
                 <a href="#" class="w3-bar-item w3-button"><i class="far fa-sticky-note">Reservations</i></a>
                 <a href="#" class="w3-bar-item w3-button"><i class="fas fa-sign-out-alt">Logout</i></a>
             </div>
@@ -117,7 +117,7 @@
                 <h2>Votre site de Covoiturage</h2>
                 </div>
                 <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-                <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
+                <img src="#" class="img-fluid animated" alt="">
                 </div>
             </div>
             </div>

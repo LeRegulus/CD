@@ -125,6 +125,7 @@ class ProfilController extends AbstractController
 
     #[Route('/profil/trajet/{id}/reserve', name: 'profil_trajet_reserver')]
     public function reserve(Trajet $trajet){
+        //dd($trajet);
         $reservation = new Reservation();
         if($trajet->getPlaces() > 0){
             $reservation->setTrajet($trajet);
@@ -134,8 +135,30 @@ class ProfilController extends AbstractController
             $place = ($trajet->getPlaces() - 1);
             $trajet->setPlaces($place);
             $this->em->persist($trajet);
+            $this->em->flush();
+            $this->addFlash('success', 'Votre réservation est bien envoyé au conducteur!');
             return $this->redirectToRoute('trajet_show', array('id'=> $trajet->getId()));
         }
 
+    }
+
+    #[Route('/profil/trajets', name: 'profil_admin_index')]
+    public function admin(): Response
+    {
+        $id = $this->getUser('id');
+        $trajets = $this->repo->findUserTrajets($id);
+        return $this->render('profil/admin/index.html.twig', [
+            'trajets' => $trajets
+        ]);
+    }
+
+    #[Route('/profil/reservation', name: 'profil_reservations_index')]
+    public function reservation(): Response
+    {
+        $id = $this->getUser('id');
+        $reservations = $this->repo->findUserReserves($id);
+        return $this->render('profil/reservation/index.html.twig', [
+            'reservations' => $reservations
+        ]);
     }
 }

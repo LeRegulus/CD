@@ -10,6 +10,7 @@
         "composer/package-versions-deprecated": "1.11.99.2",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.4",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
         "fakerphp/faker": "^1.15",
@@ -95,6 +96,10 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "compile": [
+            "php bin/console doctrine:migrations:migrate",
+            "php bin/console doctrine:fixtures:load --no-interaction --env=PROD"
         ]
     },
     "conflict": {

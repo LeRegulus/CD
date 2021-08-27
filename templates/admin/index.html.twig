@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+
+     <section id="services" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+        {% for message in app.flashes('success') %}
+            <div class='alert alert-success'>{{message}}</div>
+        {% endfor %} 
+
+
+        <div class="section-title">
+            <h2>Gérer les Utilisateurs</h2>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{user.lastName}}</td>
+                    <td>{{user.name}}</td>
+                    <td>
+                        {% if user.roles[0] == "ROLE_USER" %}
+                            Utilisateur
+                        {% else %}
+                            Administrateur
+                        {% endif %}
+                        
+                    </td>
+                    <td>
+                        <a href="{{path('admin_user_delete', {'id': user.id})}}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </section>   
+
+{% endblock %}

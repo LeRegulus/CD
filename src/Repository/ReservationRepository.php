@@ -20,7 +20,7 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
 
-    public function findUserReserves($value)
+    public function UserReserves($value)
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.user = :val')

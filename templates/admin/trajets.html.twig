@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+
+     <section id="services" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+        {% for message in app.flashes('success') %}
+            <div class='alert alert-success'>{{message}}</div>
+        {% endfor %} 
+
+
+        <div class="section-title">
+            <h2>Gérer les Itinéraires</h2>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Origine</th>
+                    <th>Destination</th>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Places</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trajet in trajets %}
+                    <tr>
+                        <td>{{trajet.origine}}</td>
+                        <td>{{trajet.destination}}</td>
+                        <td>{{trajet.date|format_datetime('short', 'none', locale='en')}}</td>
+                        <td>{{trajet.date|format_datetime('none', 'short', locale='en')}}</td>
+                        <td>{{trajet.places}}</td>
+                        <td>
+                            <a href="{{path('admin_trajet_delete', {'id': trajet.id})}}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </section>   
+
+{% endblock %}

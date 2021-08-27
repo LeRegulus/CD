@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+
+     <section id="services" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+        {% for message in app.flashes('success') %}
+            <div class='alert alert-success'>{{message}}</div>
+        {% endfor %} 
+
+
+        <div class="section-title">
+            <h2>Gérer les Utilisateurs</h2>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Itinéraire</th>
+                    <th>Conducteur</th>
+                    <th>Passager</th>
+                    <th>Date Trajet</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                    <tr>
+                        <td>{{reservation.trajet.origine}}-{{reservation.trajet.destination}}</td>
+                        <td>{{reservation.trajet.user.name}} {{reservation.trajet.user.lastName}}</td>
+                        <td>{{reservation.user.name}} {{reservation.user.lastName}}</td>
+                        <td>{{reservation.createdAt|format_datetime('short', 'none', locale='en')}}</td>
+                        <td>
+                            <a href="{{path('admin_reserve_delete', {'id': reservation.id})}}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </section>   
+
+{% endblock %}

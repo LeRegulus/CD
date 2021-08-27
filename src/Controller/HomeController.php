@@ -24,4 +24,9 @@ class HomeController extends AbstractController
             'trajets' => $trajets,
         ]);
     }
+
+    #[Route('/contact', name: 'app_contact')]
+    public function contact(){
+        return $this->render('home/contact.html.twig');
+    }
 }

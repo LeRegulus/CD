@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+
+     <section id="services" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+        {% for message in app.flashes('success') %}
+            <div class='alert alert-success'>{{message}}</div>
+        {% endfor %} 
+
+
+        <div class="section-title">
+            <h2>Gérer les Utilisateurs</h2>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Auteur</th>
+                    <th>Email</th>
+                    <th>Commentaire</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments %}
+                <tr>
+                    <td>{{comment.Author}}</td>
+                    <td>{{comment.mail}}</td>
+                    <td>{{comment.content|u.truncate(12, '...')}}</td>
+                    <td>{{comment.createdAt}}</td>
+                    <td>
+                        <a href="{{path('admin_comment_delete', {'id': comment.id})}}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Il n'ya pas encore de commentaires postés!</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </section>   
+
+{% endblock %}

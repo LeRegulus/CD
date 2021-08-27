@@ -12,27 +12,37 @@
         <div class="section-title">
             <h2>Toutes les trajets</h2>
         </div>
-        
-        <div class="row">
+            
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for trajet in trajets %}
-            <div class="col-xl-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100" id="select">
-                <div class="card mb-4" id="card">
-                    {# <img class="card-img-top" src="//placeimg.com/290/180/any" alt="Card image cap"> #}
-                        <iframe class="card-img-top"  frameborder="0" style="border:0"
-                                        src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDEYgkXlCHCkWLYHyMQGjGSL6lhXBWMFfA&origin={{ trajet.origine }}&destination={{trajet.destination}}" allowfullscreen></iframe>
+            <div class="col" >
+                <div class="card h-100" data-aos="zoom-in" data-aos-delay="100" id="card">
+                    <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
-                    <h5 class="card-title"><strong> <i class="fas fa-map-marker-alt">{{ trajet.origine }}</i> - <i class="fas fa-map-marker-alt">{{ trajet.destination }}</i> </strong></h5>
-                    <p class="card-text"><i class="far fa-calendar"><strong>{{trajet.date|date("m/d/Y")}}</strong></i></p>
+                        <h5 class="card-title"><i class="fas fa-map-marker-alt">{{ trajet.origine }}</i> => <i class="fas fa-map-marker-alt">{{ trajet.destination }}</i></h5>
+                        <p class="card-text"><i class="far fa-calendar"><strong>{{trajet.date|date("m/d/Y")}}</strong></i></p>
                     <p class="card-text"><i class="far fa-clock"><strong>{{trajet.date|format_datetime('none', 'short', locale='en') }}</strong></i></p>
                     <p class="card-text"><strong>{{ trajet.places }}</strong> Places disponibles</p>
                     <p class="card-text">PRIX:<strong> {{ trajet.prix }} Fcfa</strong></p>
-                    <a href="{{path('trajet_show', {'id': trajet.id})}}"id="details" style="display:none;" class="btn btn-outline-dark btn-sm">Details</a>
+                    <a href="{{path('trajet_show', {'id': trajet.id})}}" id="details" style="display:none;" class="btn btn-outline-dark btn-sm">Details</a>
                     </div>
                 </div>
-            </div>
+            </div> <br>
+            {# <div class="col-xl-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                <div class="icon-box" id="card">
+                <h4><a>Itinéraire</a></h4>
+                <h2 class="card-title"><i class="fas fa-map-marker-alt">{{ trajet.origine }}</i> => <i class="fas fa-map-marker-alt">{{ trajet.destination }}</i></h2>
+                <p class="card-text"><i class="far fa-calendar"><strong>{{trajet.date|date("m/d/Y")}}</strong></i></p>
+                <p class="card-text"><i class="far fa-clock"><strong>{{trajet.date|format_datetime('none', 'short', locale='en') }}</strong></i></p>
+                <p class="card-text"><strong>{{ trajet.places }}</strong> Places disponibles</p>
+                <p class="card-text">PRIX:<strong> {{ trajet.prix }} Fcfa</strong></p>
+                <a href="{{path('trajet_show', {'id': trajet.id})}}" id="details" style="display:none;" class="btn btn-outline-dark btn-sm">Details</a>
+                </div>
+            </div>  <br> #}
             {% endfor %}
-        </div>
-        <a href="{{ path('profil_trajet_new') }}" class="btn btn-primary">Proposer un trajet</a>
+        </div><br>
+        <a href="{{ path('profil_trajet_new') }}" class="btn btn-primary" style="background:#3d7e85;">Proposer un trajet</a>
+        
     </div>
 </section>
 <script>
@@ -41,10 +51,12 @@
             let detail = div.querySelector('#details');
             div.addEventListener('mouseover', function () {
                 detail.style.display = "block";
+                div.style.transform = "translateY(-10px)";
                 
             });
             div.addEventListener('mouseleave', function () {
                 detail.style.display = "none";
+                div.style.transform = "translateY(0px)";
             });
         }
         let one = document.querySelectorAll('#select');

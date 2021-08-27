@@ -6,6 +6,7 @@ use App\Entity\Reservation;
 use App\Entity\Trajet;
 use App\Form\TrajetType;
 use App\Form\EditprofilType;
+use App\Repository\ReservationRepository;
 use App\Repository\TrajetRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,17 +18,22 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ProfilController extends AbstractController
 {
-    public function __construct(EntityManagerInterface $em, TrajetRepository $repo)
+    public function __construct(EntityManagerInterface $em, TrajetRepository $repo, ReservationRepository $repo1)
     {
         $this->em = $em;
         $this->repo = $repo;
+        $this->repo1 = $repo1;
     }
 
     #[Route('/profil', name: 'app_profil')]
     public function index(): Response
     {
+        $id = $this->getUser('id');
+        $trajets = $this->repo->findUserTrajets($id);
+        $reservations = $this->repo1->UserReserves($id);
         return $this->render('profil/index.html.twig', [
-            'controller_name' => 'ProfilController',
+            'trajets' => $trajets,
+            'reservations' => $reservations
         ]);
     }
 
@@ -156,7 +162,7 @@ class ProfilController extends AbstractController
     public function reservation(): Response
     {
         $id = $this->getUser('id');
-        $reservations = $this->repo->findUserReserves($id);
+        $reservations = $this->repo1->UserReserves($id);
         return $this->render('profil/reservation/index.html.twig', [
             'reservations' => $reservations
         ]);

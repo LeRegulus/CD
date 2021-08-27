@@ -18,7 +18,8 @@
 
             <!-- Google Fonts -->
             <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-            <link rel="stylesheet" href="{{asset('assets/css/fa.css')}}"/>
+            <link href="{{asset('assets/css/fa.css')}}" rel="stylesheet"/>
+            <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
             <!-- Vendor CSS Files -->
             <link href="{{asset('assets/vendor/aos/aos.css')}}" rel="stylesheet">
@@ -40,7 +41,7 @@
                 function openRightMenu() {
                     document.getElementById("main").style.marginRight = "10%";
                     document.getElementById("rightMenu").style.marginTop = "71px";
-                    document.getElementById("rightMenu").style.width = "10%";
+                    document.getElementById("rightMenu").style.width = "12%";
                     document.getElementById("rightMenu").style.display = "block";
                     document.getElementById("openNav").style.display = 'none';
                     document.body.style.backgroundColor = "#fff";
@@ -67,9 +68,9 @@
             <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="rightMenu">
                 <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
                 <a href="{{path('app_profil')}}" class="w3-bar-item w3-button"><i class="fas fa-user-circle">Profil</i></a>
-                <a href="{{path('profil_admin_index')}}" class="w3-bar-item w3-button"><i class="far fa-car-bus">Mes Trajets</i></a>
-                <a href="#" class="w3-bar-item w3-button"><i class="far fa-sticky-note">Reservations</i></a>
-                <a href="#" class="w3-bar-item w3-button"><i class="fas fa-sign-out-alt">Logout</i></a>
+                <a href="{{path('profil_admin_index')}}" class="w3-bar-item w3-button">{% if trajets is defined %}  {% if trajets|length > 0 %}<span class="badge rounded-pill bg-danger">{{trajets|length}} </span>{% endif %} {% endif %}Mes Trajets</a>
+                <a href="{{path('profil_reservations_index')}}" class="w3-bar-item w3-button">{% if reservations is defined %}  {% if reservations|length > 0 %}<span class="badge rounded-pill bg-danger">{{reservations|length}} </span>{% endif %} {% endif %}Reservations</a>
+                <a href="{{path('app_logout')}}" class="w3-bar-item w3-button"><i class="fas fa-sign-out-alt">Logout</i></a>
             </div>
         {% endif %}
 
@@ -81,22 +82,45 @@
             <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
             <nav id="navbar" class="navbar">
+                {% if app.user %}
+                    {% if app.user.roles[0] == "ROLE_USER" %}
+                    <ul>
+                        <li><a class="nav-link scrollto" href="{{path('app_home')}}">Accueil</a></li>
+                        <li><a class="nav-link scrollto" href="{{path('trajet_index')}}">Trajets</a></li>
+                        <li><a class="nav-link scrollto" href="#">Services</a></li>
+                        <li><a class="nav-link scrollto" href="{{path('app_contact')}}">Contact</a></li>
+                    </ul>
+                    <ul>
+                        <li><a class="nav-link scrollto" href="{{path('app_logout')}}">{{app.user.name}} Se Deconnecter</a></li>
+                        <li><a class="nav-link scrollto" id="openNav" onclick="openRightMenu()">&#9776;Menu</a></li>
+                    </ul>
+                    {% else %}
+                        <ul>
+                            <li><a class="nav-link scrollto" href="{{path('app_home')}}">Accueil</a></li>
+                            <li><a class="nav-link scrollto" href="{{path('app_admin_trajets')}}">Trajets</a></li>
+                            <li><a class="nav-link scrollto" href="{{path('app_admin_index')}}">Utilisateurs</a></li>
+                            <li><a class="nav-link scrollto" href="{{path('app_admin_reserves')}}">Reservations</a></li>
+                            <li><a class="nav-link scrollto" href="{{path('app_admin_comments')}}">Commentaires</a></li>
+                        </ul>
+                        <ul>
+                            <li><a class="nav-link scrollto" href="{{path('app_logout')}}">{{app.user.name}} Se Deconnecter</a></li>
+                        </ul>
+
+                    {% endif %}
+
+                {% else %}
+
                 <ul>
                     <li><a class="nav-link scrollto" href="{{path('app_home')}}">Accueil</a></li>
                     <li><a class="nav-link scrollto" href="{{path('trajet_index')}}">Trajets</a></li>
                     <li><a class="nav-link scrollto" href="#">Services</a></li>
-                    <li><a class="nav-link scrollto" href="#">Contact</a></li>
+                    <li><a class="nav-link scrollto" href="{{path('app_contact')}}">Contact</a></li>
                 </ul>
-                {% if app.user %}
-                <ul>
-                    <li><a class="nav-link scrollto" href="{{path('app_logout')}}">{{app.user.name}} Se Deconnecter</a></li>
-                    <li><a class="nav-link scrollto" id="openNav" onclick="openRightMenu()">&#9776;Menu</a></li>
-                </ul>
-                {% else %}
                 <ul>
                     <li><a class="nav-link" href="{{path('app_register')}}">Inscription</a></li>
                     <li><a class="nav-link" href="{{path('app_login')}}">Connexion</a></li>
                 </ul>
+
                 {% endif %}
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->

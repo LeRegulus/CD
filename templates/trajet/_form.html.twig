@@ -1,4 +1,35 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div style="width:70%; margin:auto;">
+    {{ form_start(form) }}
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-6">
+                    {{ form_row(form.origine, {attr: {class: 'form-control'}}) }}
+                </div>
+                <div class="col-lg-6">
+                    {{ form_row(form.destination, {attr: {class: 'form-control'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-6">
+                    {{ form_row(form.date) }}
+                </div>
+                <div class="col-lg-6">
+                    {{ form_row(form.prix, {attr: {class: 'form-control'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-6"> 
+                    {{ form_row(form.places, {attr: {class: 'form-control'}}) }}
+                </div>
+                <div class="col-lg-6">
+                    {{ form_row(form.lieuDepart, {attr: {class: 'form-control'}}) }}
+                </div>
+            </div>
+        </div><br>
+        <button class="btn btn-primary">{{ button_label|default('Publier') }}</button>
+    {{ form_end(form) }}
+</div>

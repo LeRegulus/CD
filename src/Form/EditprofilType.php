@@ -31,6 +31,8 @@ class EditprofilType extends AbstractType
         ])
         ->add('birthday', DateType::class, [
             'label' => 'Date de Naissance',
+            'widget' => 'choice',
+            'years' => range (1900, 2025)
         ])
         ->add('sexe', ChoiceType::class, [
             'label' => 'Sexe',

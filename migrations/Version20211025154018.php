@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211025144025 extends AbstractMigration
+final class Version20211025154018 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,10 +20,6 @@ final class Version20211025144025 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SEQUENCE comment_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE reservation_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE trajet_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE comment (id INT NOT NULL, trajet_id INT DEFAULT NULL, mail VARCHAR(255) NOT NULL, content TEXT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, author VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_9474526CD12A823 ON comment (trajet_id)');
         $this->addSql('CREATE TABLE reservation (id INT NOT NULL, trajet_id INT DEFAULT NULL, user_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
@@ -47,10 +43,6 @@ final class Version20211025144025 extends AbstractMigration
         $this->addSql('ALTER TABLE reservation DROP CONSTRAINT FK_42C84955D12A823');
         $this->addSql('ALTER TABLE reservation DROP CONSTRAINT FK_42C84955A76ED395');
         $this->addSql('ALTER TABLE trajet DROP CONSTRAINT FK_2B5BA98CA76ED395');
-        $this->addSql('DROP SEQUENCE comment_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE reservation_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE trajet_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
         $this->addSql('DROP TABLE comment');
         $this->addSql('DROP TABLE reservation');
         $this->addSql('DROP TABLE trajet');

@@ -6,6 +6,7 @@ use DateTime;
 use App\Entity\Trajet;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Form\SearchType;
 use App\Repository\TrajetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Id;
